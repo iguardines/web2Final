@@ -1,7 +1,9 @@
 package ar.edu.uces.progweb2.booksmov.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,6 +24,7 @@ import ar.edu.uces.progweb2.booksmov.dto.SearchResultDto;
 import ar.edu.uces.progweb2.booksmov.model.User;
 import ar.edu.uces.progweb2.booksmov.service.LoanService;
 import ar.edu.uces.progweb2.booksmov.service.ProductService;
+import ar.edu.uces.progweb2.booksmov.service.UserService;
 
 @Controller
 @SessionAttributes("user")
@@ -31,6 +35,8 @@ public class SearchController {
 	private LoanService loanService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(method=RequestMethod.GET)
 	public String findProducts(ModelMap model, 
@@ -101,6 +107,16 @@ public class SearchController {
 		
 	}
 
+	@RequestMapping(value="/autocomplete", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> autocompleteUsers(@RequestParam("name") String input){
+		Map<String, String> out = new HashMap<String, String>();
+		List<String> userNames = userService.getNamesByInput(input);
+		for (String name : userNames) {
+			out.put(name,  name);
+		}
 		
+		return out;
+	}
 	
 }

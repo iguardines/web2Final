@@ -12,6 +12,7 @@
 	<title><spring:message code="app.name" /></title>
 	<link rel="shortcut icon" href='<c:url value="/resources/css/images/favicon.ico" />' />
 	<link rel="stylesheet" href='<c:url value="/resources/css/style.css" />' type="text/css" media="all" />
+	<script src='<c:url value="/resources/js/lib/jquery-1.8.2.js" />'></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/header.jsp" />
@@ -255,5 +256,27 @@
 	<!-- Footer -->
 	<jsp:include page="/WEB-INF/jsp/footer.jsp"></jsp:include>
 	<!-- End Footer -->
+	<script>
+		$(document).ready(function(){
+			$('#userName').on('keyup', function(){
+				var name = $('#userName').val();
+				alert(name);
+				$.ajax({
+					url : '<c:url value="/app/search/autocomplete" />' + '?name=' +name,
+					type : "GET",
+					success : function(result, status, xhr){
+						console.log(result);
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						var errorHtml = "An error ocurred <br/>";
+						errorHtml += "Status: " + textStatus + "<br/>";
+						errorHtml += "Reason: <pre>" + errorThrown + "</pre> <br/>";
+						alert(errorHtml);
+					}
+				});
+
+			});
+		});
+	</script>
 </body>
 </html>

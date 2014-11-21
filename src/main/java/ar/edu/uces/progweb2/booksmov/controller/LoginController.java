@@ -34,9 +34,11 @@ public class LoginController {
 	private LoginService loginService;
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public String processLogin(ModelMap model){
+	public String processLogin(ModelMap model, Locale locale, HttpServletRequest request, HttpServletResponse response){
 		User user = (User) model.get("user");
 		if(user == null){
+			LocaleResolver slr = RequestContextUtils.getLocaleResolver(request);
+			slr.setLocale(request, response, locale);
 			model.addAttribute("userDto", new UserDto());
 			return "login";
 		}
@@ -44,8 +46,11 @@ public class LoginController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public String processLogin(@ModelAttribute("userDto") UserDto userDto, BindingResult result, HttpServletRequest request, HttpServletResponse response){
+	public String processLogin(@ModelAttribute("userDto") UserDto userDto, BindingResult result, HttpServletRequest request, HttpServletResponse response, Locale locale){
 		userValidator.validate(userDto, result);
+        LocaleResolver slr = RequestContextUtils.getLocaleResolver(request);
+		slr.setLocale(request, response, locale);
+       
 		if(!result.hasErrors()){
 			User user = loginService.getUserByCredentials(userDto.getName(), userDto.getPassword());
 			if(user != null){
