@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="ar.edu.uces.progweb2.booksmov.model.Actor" table="ACTORS">
+		<id name="id" column="ID">
+			<generator class="native"/>
+		</id>
+		<property name="fullName" column="FULL_NAME" />
+        
+<!--         <many-to-one name="movie" class="ar.edu.uces.progweb2.booksmov.model.Movie" fetch="select"> -->
+<!--             <column name="movie_id" not-null="true" /> -->
+<!--         </many-to-one> -->
+	</class>
+</hibernate-mapping>

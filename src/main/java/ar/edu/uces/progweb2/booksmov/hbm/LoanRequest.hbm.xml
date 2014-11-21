@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="ar.edu.uces.progweb2.booksmov.model.LoanRequest" table="LOANS" >
+		
+		<id name="id" column="ID">
+			<generator class="native"/>
+		</id>
+		
+		<many-to-one name="product" column="PRODUCT_ID" class="ar.edu.uces.progweb2.booksmov.model.Product"  cascade="save-update" not-null="true" lazy="false" />
+		<property name="requestDescription" column="REQUEST_DESC" />
+		<property name="requestDate" column="REQUEST_DATE" />
+		<property name="responseDate" column="RESPONSE_DATE" />
+		<property name="deliveryDate" column="DELIVERY_DATE" />
+		
+		<many-to-one name="requester" column="REQUESTER_ID" class="ar.edu.uces.progweb2.booksmov.model.User" cascade="save-update" not-null="true" lazy="false" />
+		<many-to-one name="consignee" column="CONSIGNEE_ID" class="ar.edu.uces.progweb2.booksmov.model.User" cascade="save-update" not-null="true" lazy="false" />
+		
+        <property name="state" not-null="false" column="STATE">
+		      <type name="org.hibernate.type.EnumType">
+		         <param name="enumClass">ar.edu.uces.progweb2.booksmov.model.LoanStateEnum</param>
+		         <param name="type">12</param>
+		      </type>
+		   </property>
+	</class>
+</hibernate-mapping>

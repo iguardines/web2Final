@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="ar.edu.uces.progweb2.booksmov.model">
+	
+		<class name="Product" abstract="true" table="PRODUCTS">
+		<id name="id" column="ID" > 
+			<generator class="native" /> 
+ 		</id>
+		<property name="title" column="TITLE" not-null="true" />
+		<property name="rating" column="RATING" not-null="true" />
+		<property name="alreadyUsed" column="ALREADY_USED" type="boolean" />
+		<property name="borrowable" column="BORROWABLE" type="boolean" />
+		<property name="image" column="IMAGE" type="binary" not-null="true" />
+		<many-to-one name="user" class="ar.edu.uces.progweb2.booksmov.model.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        		
+	    <joined-subclass name="Book" table="BOOKS" >
+	    	<key column="ID"/>
+	    	<set name="authors" table="authors_books" cascade="all, delete-orphan" lazy="false" inverse="false">
+	        	<key column="BOOK_ID" not-null="true" />
+	       	 	<one-to-many class="ar.edu.uces.progweb2.booksmov.model.Author" />
+	    	</set>		
+	        <property name="description" column="DESCRIPTION" type="text" not-null="false" />
+	    </joined-subclass>
+		    
+	    <joined-subclass name="Movie" table="MOVIES">
+	    	<key column="ID"/>
+	        <set name="actors" table="actors_movies" cascade="all, delete-orphan" lazy="false" inverse="false">
+	        	<key column="MOVIE_ID" not-null="true" />
+	       	 	<one-to-many class="ar.edu.uces.progweb2.booksmov.model.Actor" />
+	    	</set>		
+	        <many-to-one name="director" column="DIRECTOR_ID" class="ar.edu.uces.progweb2.booksmov.model.Director" cascade="all" not-null="false" lazy="false" />
+	     
+	        <property name="format" not-null="false" column="FORMAT">
+		      <type name="org.hibernate.type.EnumType">
+		         <param name="enumClass">ar.edu.uces.progweb2.booksmov.model.Format</param>
+		         <param name="type">12</param>
+		      </type>
+		   </property>
+		</joined-subclass>
+	</class>
+</hibernate-mapping>

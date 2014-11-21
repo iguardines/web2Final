@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Class-Path: antlr-2.7.7.jar aopalliance-1.0.jar asm-3.1.jar asm-all-3.
+ 2.jar aspectjrt-1.7.2.jar c3p0-0.9.1.jar cglib-2.2.jar commons-fileup
+ load-1.2.2.jar commons-io-1.3.2.jar commons-lang-2.5.jar commons-logg
+ ing-1.1.1.jar dom4j-1.6.1.jar hamcrest-core-1.1.jar hibernate-c3p0-4.
+ 1.5.SP1.jar hibernate-commons-annotations-4.0.1.Final.jar hibernate-c
+ ommons-annotations-4.0.1.Final-tests.jar hibernate-core-4.1.5.SP1.jar
+  hibernate-jpa-2.0-api-1.0.1.Final.jar hibernate-validator-4.2.0.Fina
+ l.jar jackson-core-asl-1.9.7.jar jackson-mapper-asl-1.9.7.jar javassi
+ st-3.15.0-GA.jar jboss-logging-3.1.0.GA.jar jboss-transaction-api_1.1
+ _spec-1.0.0.Final.jar jstl-1.2.jar junit-4.10.jar log4j-1.2.16.jar my
+ sql-connector-java-5.0.8.jar slf4j-api-1.6.1.jar slf4j-log4j12-1.6.4.
+ jar spring-aop-3.1.2.RELEASE.jar spring-asm-3.1.2.RELEASE.jar spring-
+ beans-3.1.2.RELEASE.jar spring-context-3.1.2.RELEASE.jar spring-conte
+ xt-support-3.1.2.RELEASE.jar spring-core-3.1.2.RELEASE.jar spring-exp
+ ression-3.1.2.RELEASE.jar spring-jdbc-3.1.2.RELEASE.jar spring-orm-3.
+ 1.2.RELEASE.jar spring-oxm-3.1.2.RELEASE.jar spring-tx-3.1.2.RELEASE.
+ jar spring-web-3.1.2.RELEASE.jar spring-webmvc-3.1.2.RELEASE.jar stan
+ dard-1.1.2.jar validation-api-1.0.0.GA.jar
+

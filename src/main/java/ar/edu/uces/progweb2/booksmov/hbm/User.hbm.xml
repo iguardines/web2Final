@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="ar.edu.uces.progweb2.booksmov.model.User" table="USERS">
+		<id name="id" column="ID_USER">
+			<generator class="native"/>
+		</id>
+		<property name="name" column="NAME" />
+		<property name="password" column="PASSWORD"/>
+		
+    	<set name="products" cascade="all" lazy="false" >
+        	<key column="USER_ID" not-null="false" />
+       	 	<one-to-many class="ar.edu.uces.progweb2.booksmov.model.Product" />
+    	</set>
+    	
+    	<set name="pendingLoans" cascade="all" lazy="true" >
+        	<key column="USER_ID" not-null="false" />
+       	 	<one-to-many class="ar.edu.uces.progweb2.booksmov.model.LoanRequest" />
+    	</set>
+		
+		<many-to-one name="preferences" column="PREFERENCE_ID" lazy="false" cascade="none" class="ar.edu.uces.progweb2.booksmov.model.Preference"/>
+	</class>
+</hibernate-mapping>
