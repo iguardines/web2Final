@@ -3,13 +3,19 @@ package ar.edu.uces.progweb2.booksmov.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class User {
 	
 	private Long id;
 	private String name;
+	@JsonIgnore
 	private String password;
+	@JsonIgnore
 	private Preference preferences;
+	@JsonIgnore
 	private Set<Product> products = new HashSet<Product>();
+	@JsonIgnore
 	private Set<LoanRequest> pendingLoans = new HashSet<LoanRequest>();
 	
 	public Preference getPreferences() {

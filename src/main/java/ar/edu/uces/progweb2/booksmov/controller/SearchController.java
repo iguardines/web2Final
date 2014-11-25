@@ -1,11 +1,14 @@
 package ar.edu.uces.progweb2.booksmov.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -107,16 +110,22 @@ public class SearchController {
 		
 	}
 
-	@RequestMapping(value="/autocomplete", method=RequestMethod.GET)
+	@RequestMapping(value="/autocomplete-users", method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String, String> autocompleteUsers(@RequestParam("name") String input){
-		Map<String, String> out = new HashMap<String, String>();
-		List<String> userNames = userService.getNamesByInput(input);
-		for (String name : userNames) {
-			out.put(name,  name);
-		}
-		
-		return out;
+	public String autocompleteUsers(@RequestParam("name") String input) throws JsonGenerationException, JsonMappingException, IOException{
+		List<String> users = userService.getNamesByInput(input);
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		return ow.writeValueAsString(users);
+	}
+	
+	@RequestMapping(value="/autocomplete-elements", method=RequestMethod.GET)
+	@ResponseBody
+	public String autocompleteElements(@RequestParam("title") String title, @RequestParam("type") String type, @RequestParam("userName") String userName)
+			throws JsonGenerationException, JsonMappingException, IOException{
+		FilterDto filterDto = new FilterDto(userName, null, title, type, null);
+		List<String> products = productService.getProductsBy(filterDto);
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		return ow.writeValueAsString(products);
 	}
 	
 }

@@ -26,6 +26,9 @@
 						<spring:message code="label.filter.user"/>
 					</form:label>
 					<form:input path="userName" /><br />
+					<div id="user-results" style="display:none;">
+						<ul id="users-found"></ul>
+					</div>
 					<form:label path="rating">
 						<spring:message code="label.filter.rating"/>
 					</form:label>
@@ -38,20 +41,23 @@
 						<spring:message code="label.filter.title"/>
 					</form:label>
 					<form:input path="title" /> <br />
+					<div id="product-results" style="display:none;">
+						<ul id="products-found"></ul>
+					</div>
 					<form:label path="borrowable">
 						<spring:message code="label.filter.borrowable"/>
 					</form:label>
 					<form:checkbox path="borrowable"/>
 					<br />
-					<form:radiobutton path="type" value="all"/> 
+					<form:radiobutton path="type" value="all" cssClass="type"/> 
 					<form:label path="type">
 						<spring:message code="label.filter.all"/>
 					</form:label>
-					<form:radiobutton path="type" value="books"/> 
+					<form:radiobutton path="type" value="books" cssClass="type"/> 
 					<form:label path="type">
 						<spring:message code="label.filter.booksOnly"/>
 					</form:label>
-					<form:radiobutton path="type" value="movies"/> 
+					<form:radiobutton path="type" value="movies" cssClass="type"/> 
 					<form:label path="type">
 						<spring:message code="label.filter.moviesOnly"/>
 					</form:label><br />
@@ -258,23 +264,76 @@
 	<!-- End Footer -->
 	<script>
 		$(document).ready(function(){
+			
+			var count = 0;
+			
 			$('#userName').on('keyup', function(){
 				var name = $('#userName').val();
-				alert(name);
-				$.ajax({
-					url : '<c:url value="/app/search/autocomplete" />' + '?name=' +name,
-					type : "GET",
-					success : function(result, status, xhr){
-						console.log(result);
-					},
-					error : function(jqXHR, textStatus, errorThrown) {
-						var errorHtml = "An error ocurred <br/>";
-						errorHtml += "Status: " + textStatus + "<br/>";
-						errorHtml += "Reason: <pre>" + errorThrown + "</pre> <br/>";
-						alert(errorHtml);
-					}
-				});
-
+				
+				if(name != ""){
+					$.ajax({
+						url : '<c:url value="/app/search/autocomplete-users" />' + '?name=' +name,
+						type : "GET",
+						success : function(data, status, xhr){
+							var result = $.parseJSON(data);
+							$('#users-found').children().empty().remove();
+							for(var i = 0; i < result.length; i++){
+								$('#users-found').append('<li>' + result[i] + '</li>');
+							}
+							$('#user-results').show();
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							var errorHtml = "An error ocurred <br/>";
+							errorHtml += "Status: " + textStatus + "<br/>";
+							errorHtml += "Reason: <pre>" + errorThrown + "</pre> <br/>";
+							alert(errorHtml);
+						}
+					});
+				}
+			});
+			
+			$('#user-results').on('click', '#users-found li' ,function(){
+				
+				$('input[name=userName]').val($(this).text());
+				$('#user-results').hide();
+			});
+			
+			$('#product-results').on('click', '#products-found li' ,function(){
+				
+				$('input[name=title]').val($(this).text());
+				$('#product-results').hide();
+			});
+			
+			$('#title').on('keyup', function(){
+				++count;
+				if(count >= 2){
+					
+					var type = $('.type:checked').val(),
+					userName = $('#userName').val(),
+					   title = $('#title').val();
+					
+					$.ajax({
+						url : '<c:url value="/app/search/autocomplete-elements" />',
+						type : "GET",
+						data : {type: type, userName: userName, title: title},
+						success : function(data, status, xhr){
+							var result = $.parseJSON(data);
+							$('#products-found').children().empty().remove();
+							for(var i = 0; i < result.length; i++){
+								$('#products-found').append('<li>' + result[i] + '</li>');
+							}
+							$('#product-results').show();
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							var errorHtml = "An error ocurred <br/>";
+							errorHtml += "Status: " + textStatus + "<br/>";
+							errorHtml += "Reason: <pre>" + errorThrown + "</pre> <br/>";
+							alert(errorHtml);
+						}
+					});
+					
+					count = 0;
+				}
 			});
 		});
 	</script>

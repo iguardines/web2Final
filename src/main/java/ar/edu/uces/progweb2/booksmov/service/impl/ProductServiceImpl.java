@@ -63,4 +63,9 @@ public class ProductServiceImpl implements ProductService{
 		return results;
 	}
 
+	@Override
+	public List<String> getProductsBy(FilterDto filterDto) {
+		return productDao.getProductsBy(filterDto);
+	}
+
 }

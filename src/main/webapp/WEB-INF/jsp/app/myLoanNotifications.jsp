@@ -11,6 +11,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<link rel="shortcut icon" href='<c:url value="/resources/css/images/favicon.ico" />' />
 	<link rel="stylesheet" href='<c:url value="/resources/css/style.css" />' type="text/css" media="all" />
+	<script src='<c:url value="/resources/js/lib/jquery-1.8.2.js" />'></script>
+	<script src='<c:url value="/resources/js/lib/jquery-ui-1.11.2.custom/jquery-ui.js" />'></script>
 	<title><spring:message code="loan.my.loans"/></title>
 </head>
 <body>
@@ -29,6 +31,9 @@
 				</div>
 			</c:when>
 			<c:otherwise>
+				<div class="draggable">
+					<h1>arrastrame</h1>
+				</div>
 				<table>
 					<tr>
 						<th><spring:message code="loan.requested.cover"/></th>
@@ -39,7 +44,6 @@
 						<th><spring:message code="loan.requested.message"/></th>			
 						<th><spring:message code="loan.response.date"/></th>
 						<th><spring:message code="loan.delivery.date"/></th>
-						<th><spring:message code="loan.requested.action"/></th>
 					</tr>
 					<c:forEach var="loan" items="${loans}">
 						<c:choose>	
@@ -103,27 +107,27 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td>
-								<div>
-									<c:if test="${pending}">
-										<div class="margin-bottom">
-											<a href='<c:url value="/app/loan/accept/${loan.id}"  />' >
-											   <button class="submit-btn"><spring:message code="loan.response.accept"/></button>
-											</a>
-										</div>
-										<div class="margin-top">
-											<a href="<c:url value="/app/loan/reject/${loan.id}" />" >
-											   <button class="submit-btn"><spring:message code="loan.response.reject"/></button>
-											</a>
-										</div>
-									</c:if>
-									<c:if test="${accepted}">
-										<a href='<c:url value="/app/loan/deliver/${loan.id}" />' >
-										   <button class="submit-btn"><spring:message code="loan.response.deliver"/></button>
-										</a>
-									</c:if>
-								</div>
-							</td>
+<!-- 							<td> -->
+<!-- 								<div> -->
+<%-- 									<c:if test="${pending}"> --%>
+<!-- 										<div class="margin-bottom"> -->
+<%-- 											<a href='<c:url value="/app/loan/accept/${loan.id}"  />' > --%>
+<%-- 											   <button class="submit-btn"><spring:message code="loan.response.accept"/></button> --%>
+<!-- 											</a> -->
+<!-- 										</div> -->
+<!-- 										<div class="margin-top"> -->
+<%-- 											<a href="<c:url value="/app/loan/reject/${loan.id}" />" > --%>
+<%-- 											   <button class="submit-btn"><spring:message code="loan.response.reject"/></button> --%>
+<!-- 											</a> -->
+<!-- 										</div> -->
+<%-- 									</c:if> --%>
+<%-- 									<c:if test="${accepted}"> --%>
+<%-- 										<a href='<c:url value="/app/loan/deliver/${loan.id}" />' > --%>
+<%-- 										   <button class="submit-btn"><spring:message code="loan.response.deliver"/></button> --%>
+<!-- 										</a> -->
+<%-- 									</c:if> --%>
+<!-- 								</div> -->
+<!-- 							</td> -->
 						</tr>
 					</c:forEach>
 				</table>

@@ -12,7 +12,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -181,6 +180,20 @@ public class ProductDaoImpl implements ProductDao{
 				criteria = sessionFactory.getCurrentSession().createCriteria(Product.class); break;
 		}
 		return criteria;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getProductsBy(FilterDto filterDto) {
+		Criteria criteria = getCriteriaForType(filterDto.getType());
+		criteria.setProjection(Projections.property("title"));
+		if(!StringUtils.isBlank(filterDto.getUserName())){
+			criteria.createAlias("user", "u");
+			criteria.add(Restrictions.ilike("u.name", filterDto.getUserName(), MatchMode.START));
+		}
+		criteria.add(Restrictions.ilike("title", filterDto.getTitle(), MatchMode.START));
+		criteria.setMaxResults(5);
+		return (List<String>) criteria.list();
 	}
 	
 	
