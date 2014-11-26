@@ -26,8 +26,8 @@
 						<spring:message code="label.filter.user"/>
 					</form:label>
 					<form:input path="userName" /><br />
-					<div id="user-results" style="display:none;">
-						<ul id="users-found"></ul>
+					<div id="user-results" class="div-result" style="display:none;">
+						
 					</div>
 					<form:label path="rating">
 						<spring:message code="label.filter.rating"/>
@@ -41,8 +41,8 @@
 						<spring:message code="label.filter.title"/>
 					</form:label>
 					<form:input path="title" /> <br />
-					<div id="product-results" style="display:none;">
-						<ul id="products-found"></ul>
+					<div id="product-results" class="div-result" style="display:none;">
+<!-- 						<div id="products-found"></div> -->
 					</div>
 					<form:label path="borrowable">
 						<spring:message code="label.filter.borrowable"/>
@@ -265,7 +265,18 @@
 	<script>
 		$(document).ready(function(){
 			
-			var count = 0;
+			count = 0;
+			
+			$('#user-results').on('click', '.display_box', function(){
+				$('input[name=userName]').val($(this).text());
+				$('#user-results').hide(500);
+			});
+			
+			$('#product-results').on('click', '.display_box', function(){
+				$('input[name=title]').val($(this).text());
+				$('#product-results').hide(500);
+				count = 0;
+			});
 			
 			$('#userName').on('keyup', function(){
 				var name = $('#userName').val();
@@ -276,11 +287,12 @@
 						type : "GET",
 						success : function(data, status, xhr){
 							var result = $.parseJSON(data);
-							$('#users-found').children().empty().remove();
+							$('#user-results').children().empty().remove();
 							for(var i = 0; i < result.length; i++){
-								$('#users-found').append('<li>' + result[i] + '</li>');
+								$('#user-results').append('<div class="display_box"><span>' + result[i] + '</span></div>');
 							}
 							$('#user-results').show();
+							
 						},
 						error : function(jqXHR, textStatus, errorThrown) {
 							var errorHtml = "An error ocurred <br/>";
@@ -292,16 +304,11 @@
 				}
 			});
 			
-			$('#user-results').on('click', '#users-found li' ,function(){
-				
-				$('input[name=userName]').val($(this).text());
-				$('#user-results').hide();
-			});
-			
-			$('#product-results').on('click', '#products-found li' ,function(){
-				
-				$('input[name=title]').val($(this).text());
-				$('#product-results').hide();
+			$(this).on("click", function(e) { 
+				  var $clicked = $(e.target);
+				  if (! $clicked.hasClass("search")){
+					$('.div-result').hide(500);
+				  }
 			});
 			
 			$('#title').on('keyup', function(){
@@ -318,9 +325,9 @@
 						data : {type: type, userName: userName, title: title},
 						success : function(data, status, xhr){
 							var result = $.parseJSON(data);
-							$('#products-found').children().empty().remove();
+							$('#product-results').children().empty().remove();
 							for(var i = 0; i < result.length; i++){
-								$('#products-found').append('<li>' + result[i] + '</li>');
+								$('#product-results').append('<div class="display_box"><span>' + result[i] + '</span></div>');
 							}
 							$('#product-results').show();
 						},
