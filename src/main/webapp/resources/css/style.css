@@ -122,7 +122,9 @@ a .back {position: relative; top: 25px; margin-left: 18%; font-size: 14px;}
 .image { position: relative; top: 46px; left: 15px;}
 .float-lf { float:left;}
 .float-rt { float:right;}
+.clear-rt {clear:right;}
 .ml-page { margin-left: 37%;}
+.ml-loan { margin-left: 35px;}
 .details {position: relative; left: 46%; top: -112px; max-width: 400px; text-align: justify;}
 
 .products ul { list-style: none; position: relative; width: 860px; margin-left: -7px; width: 860px; }
@@ -131,9 +133,16 @@ a .back {position: relative; top: 25px; margin-left: 18%; font-size: 14px;}
 .products ul li div.info:hover { }
 .products ul li div.info .holder { padding: 14px 9px; display: block; }
 .products .product { width: 134px; position: relative; }
-
-	
 .products img { padding: 0 7px 4px; width: 105px; height: 142px; }
+
+.loans ul { list-style: none; position: relative; width: 860px; margin-left: -7px; width: 860px; }
+.loans ul li { float: left; display: inline; width: 300px; height: 343px; margin: 0 15px 14px 0; }
+.loans ul li div.info { display: block; padding: 7px; width: 268px; height: 329px; }
+.loans ul li div.info:hover { }
+.loans ul li div.info .holder { padding: 14px 9px; display: block; }
+.loans .loan { width: 134px; position: relative; }
+.loans img { padding: 0 7px 4px; width: 105px; height: 142px; }
+
 span .icon img {width: 16px; height: 16px; padding: 1px;} 
 .product .buy-btn { position: absolute; bottom: 8px; left: 7px; background: url(images/buy-btn.png) repeat-x 0 0; width: 126px; height: 31px; color: #fff; font-size: 12px; line-height: 31px; text-transform: uppercase; font-weight: bold; z-index: 10; padding-left: 10px; white-space: nowrap;}
 .product .buy-btn:hover { text-decoration: none; }

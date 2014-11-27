@@ -23,6 +23,7 @@ public class RootController {
 		HttpSession session = request.getSession(); 
 		User user = (User) session.getAttribute("user");
 		if(user == null){
+			@SuppressWarnings("unchecked")
 			Enumeration<Locale> locales = request.getLocales();
 	        if (locales.hasMoreElements()) {
 	            Locale locale = (Locale) locales.nextElement();

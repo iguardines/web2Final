@@ -20,6 +20,7 @@ public class LogoutController {
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response){
 		session.invalidate();
+		@SuppressWarnings("unchecked")
 		Enumeration<Locale> locales = request.getLocales();
         if (locales.hasMoreElements()) {
             Locale locale = (Locale) locales.nextElement();

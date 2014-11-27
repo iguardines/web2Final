@@ -23,90 +23,90 @@
 		<c:set var="state" value="" />
 		<c:set var="pending" value="false" />
 		<c:set var="accepted" value="false" />
-		<c:choose>
-			<c:when test="${empty loans}">
-				<div id="messages" class="success-message">
-					<h3><spring:message code="loan.not.in.revision"/></h3><br /><br />
-					<a class="back" href='<c:url value="/app/search" />'><spring:message code="go.back"/></a>
-				</div>
-			</c:when>
-			<c:otherwise>
-				<div class="draggable">
-					<h1>arrastrame</h1>
-				</div>
-				<table>
-					<tr>
-						<th><spring:message code="loan.requested.cover"/></th>
-						<th><spring:message code="loan.requested.title"/></th>
-						<th><spring:message code="loan.requested.requester"/></th>
-						<th><spring:message code="loan.requested.date"/></th>
-						<th><spring:message code="loan.requested.state"/></th>
-						<th><spring:message code="loan.requested.message"/></th>			
-						<th><spring:message code="loan.response.date"/></th>
-						<th><spring:message code="loan.delivery.date"/></th>
-					</tr>
-					<c:forEach var="loan" items="${loans}">
-						<c:choose>	
-							<c:when test="${loan.state eq 'ACCEPTED'}">
-								<c:set var="state">
-									<spring:message code='loan.state.accepted' />
-								</c:set>
-								<c:set var="backgroundColor" value="springgreen" />
-								<c:set var="pending" value="false" />
-								<c:set var="accepted" value="true" />
-							</c:when>
-							<c:when test="${loan.state eq 'REJECTED'}">
-								<c:set var="state">
-									<spring:message code="loan.state.rejected" />
-								</c:set>
-								<c:set var="backgroundColor" value="tomato" />
-								<c:set var="accepted" value="false" />
-								<c:set var="delivered" value="false" />
-							</c:when>
-							<c:when test="${loan.state eq 'DELIVERED'}">
-								<c:set var="state">
-									<spring:message code="loan.state.delivered" />
-								</c:set>
-								<c:set var="backgroundColor" value="lightgray" />
-								<c:set var="pending" value="false" />
-								<c:set var="accepted" value="false" />
-							</c:when>
-							<c:otherwise>
-								<c:set var="state">
-									<spring:message code="loan.state.pending" />
-								</c:set>
-								<c:set var="backgroundColor" value="rgb(255,255,125)" />
-								<c:set var="pending" value="true" />
-								<c:set var="accepted" value="false" />
-							</c:otherwise>
-						</c:choose>
-						<tr style="background-color:${backgroundColor}">
-							<td><img height="130" width="100" src='<c:url value="/app/image/${loan.product.id}" />' /></td>
-							<td>${loan.product.title}</td>
-							<td>${loan.requester.name}</td>
-							<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${loan.requestDate}" /></td>
-							<td>${state}</td>
-							<td>${loan.requestDescription}</td>
-							<td>
-								<c:choose>
-									<c:when test="${not empty loan.responseDate}">
-										<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${loan.responseDate}" />
-									</c:when>
-									<c:otherwise>
-										<spring:message code="loan.response.date.missing"/>
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td>
-								<c:choose>
-									<c:when test="${loan.state eq 'DELIVERED'}">
-										<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${loan.deliveryDate}" />
-									</c:when>
-									<c:otherwise>
-										<spring:message code="loan.no.apply"/>
-									</c:otherwise>
-								</c:choose>
-							</td>
+<%-- 		<c:choose> --%>
+<%-- 			<c:when test="${empty loans}"> --%>
+<!-- 				<div id="messages" class="success-message"> -->
+<%-- 					<h3><spring:message code="loan.not.in.revision"/></h3><br /><br /> --%>
+<%-- 					<a class="back" href='<c:url value="/app/search" />'><spring:message code="go.back"/></a> --%>
+<!-- 				</div> -->
+<%-- 			</c:when> --%>
+<%-- 			<c:otherwise> --%>
+<!-- 				<div class="draggable"> -->
+<!-- 					<h1>arrastrame</h1> -->
+<!-- 				</div> -->
+<!-- 				<table> -->
+<!-- 					<tr> -->
+<%-- 						<th><spring:message code="loan.requested.cover"/></th> --%>
+<%-- 						<th><spring:message code="loan.requested.title"/></th> --%>
+<%-- 						<th><spring:message code="loan.requested.requester"/></th> --%>
+<%-- 						<th><spring:message code="loan.requested.date"/></th> --%>
+<%-- 						<th><spring:message code="loan.requested.state"/></th> --%>
+<%-- 						<th><spring:message code="loan.requested.message"/></th>			 --%>
+<%-- 						<th><spring:message code="loan.response.date"/></th> --%>
+<%-- 						<th><spring:message code="loan.delivery.date"/></th> --%>
+<!-- 					</tr> -->
+<%-- 					<c:forEach var="loan" items="${loans}"> --%>
+<%-- 						<c:choose>	 --%>
+<%-- 							<c:when test="${loan.state eq 'ACCEPTED'}"> --%>
+<%-- 								<c:set var="state"> --%>
+<%-- 									<spring:message code='loan.state.accepted' /> --%>
+<%-- 								</c:set> --%>
+<%-- 								<c:set var="backgroundColor" value="springgreen" /> --%>
+<%-- 								<c:set var="pending" value="false" /> --%>
+<%-- 								<c:set var="accepted" value="true" /> --%>
+<%-- 							</c:when> --%>
+<%-- 							<c:when test="${loan.state eq 'REJECTED'}"> --%>
+<%-- 								<c:set var="state"> --%>
+<%-- 									<spring:message code="loan.state.rejected" /> --%>
+<%-- 								</c:set> --%>
+<%-- 								<c:set var="backgroundColor" value="tomato" /> --%>
+<%-- 								<c:set var="accepted" value="false" /> --%>
+<%-- 								<c:set var="delivered" value="false" /> --%>
+<%-- 							</c:when> --%>
+<%-- 							<c:when test="${loan.state eq 'DELIVERED'}"> --%>
+<%-- 								<c:set var="state"> --%>
+<%-- 									<spring:message code="loan.state.delivered" /> --%>
+<%-- 								</c:set> --%>
+<%-- 								<c:set var="backgroundColor" value="lightgray" /> --%>
+<%-- 								<c:set var="pending" value="false" /> --%>
+<%-- 								<c:set var="accepted" value="false" /> --%>
+<%-- 							</c:when> --%>
+<%-- 							<c:otherwise> --%>
+<%-- 								<c:set var="state"> --%>
+<%-- 									<spring:message code="loan.state.pending" /> --%>
+<%-- 								</c:set> --%>
+<%-- 								<c:set var="backgroundColor" value="rgb(255,255,125)" /> --%>
+<%-- 								<c:set var="pending" value="true" /> --%>
+<%-- 								<c:set var="accepted" value="false" /> --%>
+<%-- 							</c:otherwise> --%>
+<%-- 						</c:choose> --%>
+<%-- 						<tr style="background-color:${backgroundColor}"> --%>
+<%-- 							<td><img height="130" width="100" src='<c:url value="/app/image/${loan.product.id}" />' /></td> --%>
+<%-- 							<td>${loan.product.title}</td> --%>
+<%-- 							<td>${loan.requester.name}</td> --%>
+<%-- 							<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${loan.requestDate}" /></td> --%>
+<%-- 							<td>${state}</td> --%>
+<%-- 							<td>${loan.requestDescription}</td> --%>
+<!-- 							<td> -->
+<%-- 								<c:choose> --%>
+<%-- 									<c:when test="${not empty loan.responseDate}"> --%>
+<%-- 										<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${loan.responseDate}" /> --%>
+<%-- 									</c:when> --%>
+<%-- 									<c:otherwise> --%>
+<%-- 										<spring:message code="loan.response.date.missing"/> --%>
+<%-- 									</c:otherwise> --%>
+<%-- 								</c:choose> --%>
+<!-- 							</td> -->
+<!-- 							<td> -->
+<%-- 								<c:choose> --%>
+<%-- 									<c:when test="${loan.state eq 'DELIVERED'}"> --%>
+<%-- 										<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${loan.deliveryDate}" /> --%>
+<%-- 									</c:when> --%>
+<%-- 									<c:otherwise> --%>
+<%-- 										<spring:message code="loan.no.apply"/> --%>
+<%-- 									</c:otherwise> --%>
+<%-- 								</c:choose> --%>
+<!-- 							</td> -->
 <!-- 							<td> -->
 <!-- 								<div> -->
 <%-- 									<c:if test="${pending}"> --%>
@@ -128,12 +128,104 @@
 <%-- 									</c:if> --%>
 <!-- 								</div> -->
 <!-- 							</td> -->
-						</tr>
-					</c:forEach>
-				</table>
-			</c:otherwise>
-		</c:choose>
+<!-- 						</tr> -->
+<%-- 					</c:forEach> --%>
+<!-- 				</table> -->
+<%-- 			</c:otherwise> --%>
+<%-- 		</c:choose> --%>
+	<div class="loans">
+		<ul>
+			<c:forEach var="loan" items="${loans}">
+				<c:choose>	
+					<c:when test="${loan.state eq 'ACCEPTED'}">
+						<c:set var="state">
+							<spring:message code='loan.state.accepted' />
+						</c:set>
+						<c:set var="backgroundColor" value="springgreen" />
+						<c:set var="pending" value="false" />
+						<c:set var="accepted" value="true" />
+					</c:when>
+					<c:when test="${loan.state eq 'REJECTED'}">
+						<c:set var="state">
+							<spring:message code="loan.state.rejected" />
+						</c:set>
+						<c:set var="backgroundColor" value="tomato" />
+						<c:set var="accepted" value="false" />
+						<c:set var="delivered" value="false" />
+					</c:when>
+					<c:when test="${loan.state eq 'DELIVERED'}">
+						<c:set var="state">
+							<spring:message code="loan.state.delivered" />
+						</c:set>
+						<c:set var="backgroundColor" value="lightgray" />
+						<c:set var="pending" value="false" />
+						<c:set var="accepted" value="false" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="state">
+							<spring:message code="loan.state.pending" />
+						</c:set>
+						<c:set var="backgroundColor" value="rgb(255,255,125)" />
+						<c:set var="pending" value="true" />
+						<c:set var="accepted" value="false" />
+					</c:otherwise>
+				</c:choose>
+				<li class="glowing-border">	
+					<div class="loan">
+						<div class="info">
+							<span class="holder">
+								<img height="130" width="100" src='<c:url value="/app/image/${loan.product.id}" />' />
+								<span class="book-name">
+									${loan.product.title}
+								</span><br /><br />
+								<span class="float-lf">
+									<strong><spring:message code="loan.requested.requester"/>:</strong><br />
+									${loan.requester.name}<br />
+								</span>
+								<span class="float-rt">
+									<strong><spring:message code="loan.requested.date"/>:</strong><br />
+									<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${loan.requestDate}" /><br />
+							    </span>
+							    <span class="float-lf">
+							    	<strong><spring:message code="loan.requested.state"/>:</strong><br />
+							    	${state} <br />
+							    </span>
+								<span class="float-rt">
+									<strong><spring:message code="loan.response.date"/>:</strong><br />
+									<c:choose>
+										<c:when test="${not empty loan.responseDate}">
+											<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${loan.responseDate}" />  <br />
+										</c:when>
+										<c:otherwise>
+											<spring:message code="loan.response.date.missing"/>  <br />
+										</c:otherwise>
+									</c:choose>
+								</span>
+								<span class="float-lf">
+									<strong><spring:message code="loan.delivery.date"/>:</strong><br />
+									<c:choose>
+										<c:when test="${loan.state eq 'DELIVERED'}">
+											<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${loan.deliveryDate}" /> <br />
+										</c:when>
+										<c:otherwise>
+											<spring:message code="loan.no.apply"/> 
+										</c:otherwise>
+									</c:choose>
+								</span>
+								<span class="float-rt">
+									<strong><spring:message code="loan.requested.message"/>:</strong><br />
+									${loan.requestDescription} <br />
+								</span>
+							</span>
+						</div>
+					</div>
+				</li>
+			</c:forEach>
+		</ul>
 	</div>
+	<div class="cl">&nbsp;</div>
+	</div>
+	<script src=''></script>
 	<!-- End Main -->
 	<!-- Footer -->
 	<jsp:include page="/WEB-INF/jsp/footer.jsp"></jsp:include>
