@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -133,6 +133,18 @@
 <!-- 				</table> -->
 <%-- 			</c:otherwise> --%>
 <%-- 		</c:choose> --%>
+	
+	<div>
+		<div id="dropzone-accepted" data-action="accept" style="width:100px; height:100px; background-color:springgreen; position:relative;" class="float-lf ml-loan droppable">
+			<span style="position:absolute; top:-20px;"><spring:message code='loan.state.accepted' /></span>
+		</div>
+		<div id="dropzone-rejected" data-action="reject" style="width:100px; height:100px; background-color:tomato; position:relative;" class="float-lf ml-loan droppable">
+			<span style="position:absolute; top:-20px;"><spring:message code="loan.state.rejected" /></span>
+		</div>
+		<div id="dropzone-delivered" data-action="deliver" style="width:100px; height:100px; background-color:lightgray; position:relative;" class="float-lf ml-loan droppable">
+			<span style="position:absolute; top:-20px;"><spring:message code="loan.state.delivered" /></span>
+		</div>
+	</div>
 	<div class="loans">
 		<ul>
 			<c:forEach var="loan" items="${loans}">
@@ -170,7 +182,7 @@
 						<c:set var="accepted" value="false" />
 					</c:otherwise>
 				</c:choose>
-				<li class="glowing-border">	
+				<li id="loan-${loan.id}" class="glowing-border clear-bt" style="background-color:${backgroundColor}">	
 					<div class="loan">
 						<div class="info">
 							<span class="holder">
@@ -188,7 +200,7 @@
 							    </span>
 							    <span class="float-lf">
 							    	<strong><spring:message code="loan.requested.state"/>:</strong><br />
-							    	${state} <br />
+							    	<span id="state-${loan.id}">${state}</span> <br />
 							    </span>
 								<span class="float-rt">
 									<strong><spring:message code="loan.response.date"/>:</strong><br />
@@ -216,6 +228,9 @@
 									<strong><spring:message code="loan.requested.message"/>:</strong><br />
 									${loan.requestDescription} <br />
 								</span>
+								<span class="drag-me draggable" data-state="${loan.state}" data-loanid="${loan.id}">
+									<strong>Arrastrame</strong>
+								</span>
 							</span>
 						</div>
 					</div>
@@ -225,7 +240,7 @@
 	</div>
 	<div class="cl">&nbsp;</div>
 	</div>
-	<script src=''></script>
+	<script src="<c:url value='/resources/js/dragAndDrop.js' />"></script>
 	<!-- End Main -->
 	<!-- Footer -->
 	<jsp:include page="/WEB-INF/jsp/footer.jsp"></jsp:include>

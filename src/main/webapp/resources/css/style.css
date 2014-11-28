@@ -123,8 +123,13 @@ a .back {position: relative; top: 25px; margin-left: 18%; font-size: 14px;}
 .float-lf { float:left;}
 .float-rt { float:right;}
 .clear-rt {clear:right;}
+.clear-lf {clear:left;}
+.clear-bt {clear:both;}
 .ml-page { margin-left: 37%;}
 .ml-loan { margin-left: 35px;}
+.mt-loan { margin-top: 35px;}
+.mb-loan { margin-top: 35px;}
+.drag-me {position:absolute; top: 10px; left: 150px;}
 .details {position: relative; left: 46%; top: -112px; max-width: 400px; text-align: justify;}
 
 .products ul { list-style: none; position: relative; width: 860px; margin-left: -7px; width: 860px; }

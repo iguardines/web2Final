@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,9 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import ar.edu.uces.progweb2.booksmov.dto.LoanRequestDto;
+import ar.edu.uces.progweb2.booksmov.dto.LoanStateDtoHolder;
 import ar.edu.uces.progweb2.booksmov.model.LoanRequest;
 import ar.edu.uces.progweb2.booksmov.model.LoanStateEnum;
 import ar.edu.uces.progweb2.booksmov.model.Product;
@@ -100,7 +106,7 @@ public class LoanController {
 		model.addAttribute("loans", loans);
 		return "myLoanNotifications";
 	}
-	
+	/*
 	@RequestMapping(value="/accept/{id}", method=RequestMethod.GET)
 	public String acceptLoan(@PathVariable("id") Long id, ModelMap model){
 		loanService.acceptLoan(id);
@@ -117,5 +123,33 @@ public class LoanController {
 	public String deliverLoan(@PathVariable("id") Long id, ModelMap model){
 		loanService.deliverLoan(id);
 		return "redirect:/app/loan/notifications";
+	}
+	*/
+	
+	@RequestMapping(value="/accept/{id}", method=RequestMethod.GET)
+	@ResponseBody
+	public String acceptLoan(@PathVariable("id") Long id, ModelMap model) throws JsonGenerationException, JsonMappingException, IOException{
+		loanService.acceptLoan(id);
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		LoanStateDtoHolder loanState = new LoanStateDtoHolder(LoanStateEnum.ACCEPTED, "springgreen");
+		return ow.writeValueAsString(loanState);
+	}
+	
+	@RequestMapping(value="/reject/{id}", method=RequestMethod.GET)
+	@ResponseBody
+	public String rejectLoan(@PathVariable("id") Long id, ModelMap model) throws JsonGenerationException, JsonMappingException, IOException{
+		loanService.rejectLoan(id);
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		LoanStateDtoHolder loanState = new LoanStateDtoHolder(LoanStateEnum.REJECTED, "tomato");
+		return ow.writeValueAsString(loanState);
+	}
+	
+	@RequestMapping(value="/deliver/{id}", method=RequestMethod.GET)
+	@ResponseBody
+	public String deliverLoan(@PathVariable("id") Long id, ModelMap model) throws JsonGenerationException, JsonMappingException, IOException{
+		loanService.deliverLoan(id);
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		LoanStateDtoHolder loanState = new LoanStateDtoHolder(LoanStateEnum.DELIVERED, "lightgray");
+		return ow.writeValueAsString(loanState);
 	}
 }
