@@ -10,6 +10,7 @@ public interface LoanDao {
 	List<LoanRequest> getLoanRequestsByUserId(Long userId);
 	List<LoanRequest> getMyRequestedLoans(Long userId);
 	List<LoanRequest> getMyNotifiedLoans(Long userId);
+	LoanRequest getLoanById(Long id);
 	void save(LoanRequest loan);
 	void acceptLoan(Long id);
 	void rejectLoan(Long id);

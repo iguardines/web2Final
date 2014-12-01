@@ -4,7 +4,7 @@ import java.util.Date;
 
 import ar.edu.uces.progweb2.booksmov.model.LoanStateEnum;
 
-public class LoanRequestDto {
+public class LoanDto {
 	
 	private Long id;
 	private Long productId;
@@ -15,7 +15,7 @@ public class LoanRequestDto {
 	private Date requestDate;
 	private Date responseDate;
 	
-	public LoanRequestDto(Long productId, String requestDescription,
+	public LoanDto(Long productId, String requestDescription,
 			LoanStateEnum state, Long requesterId, Long consigneeId,
 			Date requestDate, Date responseDate) {
 		this.productId = productId;
@@ -27,7 +27,7 @@ public class LoanRequestDto {
 		this.responseDate = responseDate;
 	}
 	
-	public LoanRequestDto(){}
+	public LoanDto(){}
 	
 	public Long getProductId() {
 		return productId;

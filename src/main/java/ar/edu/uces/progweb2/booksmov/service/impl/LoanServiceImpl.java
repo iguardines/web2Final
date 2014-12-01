@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import ar.edu.uces.progweb2.booksmov.dao.LoanDao;
-import ar.edu.uces.progweb2.booksmov.dto.LoanRequestDto;
+import ar.edu.uces.progweb2.booksmov.dto.LoanDto;
 import ar.edu.uces.progweb2.booksmov.dto.ProductDto;
 import ar.edu.uces.progweb2.booksmov.model.LoanRequest;
 import ar.edu.uces.progweb2.booksmov.model.LoanStateEnum;
@@ -26,13 +26,13 @@ public class LoanServiceImpl implements LoanService {
 	private LoanConverterService loanConverter;
 	
 	@Override
-	public List<LoanRequestDto> getLoanRequestsByProductAndUserId(Long productId, Long userId) {
+	public List<LoanDto> getLoanRequestsByProductAndUserId(Long productId, Long userId) {
 		List<LoanRequest> loans = loanDao.getLoanRequestsByProductAndUserId(productId, userId);
 		return transform(loans);
 	}
 
-	private List<LoanRequestDto> transform(List<LoanRequest> loans) {
-		List<LoanRequestDto> loanDtos = new ArrayList<LoanRequestDto>();
+	private List<LoanDto> transform(List<LoanRequest> loans) {
+		List<LoanDto> loanDtos = new ArrayList<LoanDto>();
 		for (LoanRequest loanRequest : loans) {
 			loanDtos.add(loanConverter.toDto(loanRequest));
 		}
@@ -40,12 +40,12 @@ public class LoanServiceImpl implements LoanService {
 	}
 
 	@Override
-	public boolean canRequestLoan(List<LoanRequestDto> loans) {
+	public boolean canRequestLoan(List<LoanDto> loans) {
 		
 		if(CollectionUtils.isEmpty(loans)){
 			return true;
 		}
-		for (LoanRequestDto loanRequestDto : loans) {
+		for (LoanDto loanRequestDto : loans) {
 			if(!loanRequestDto.getState().canRequestProductLoan()){
 				return false;
 			}
@@ -86,10 +86,10 @@ public class LoanServiceImpl implements LoanService {
 	@Override
 	public void setRequestableForLoan(List<ProductDto> products, Long userId) {
 		
-		List<LoanRequestDto> loans = getLoanRequestsByUserId(userId);
+		List<LoanDto> loans = getLoanRequestsByUserId(userId);
 		
 		for (ProductDto productDto : products) {
-			for (LoanRequestDto loanRequest : loans) {
+			for (LoanDto loanRequest : loans) {
 				if(productDto.getId().equals(loanRequest.getProductId())
 						&& (LoanStateEnum.PENDING == loanRequest.getState()
 						|| LoanStateEnum.REJECTED == loanRequest.getState())){
@@ -100,9 +100,14 @@ public class LoanServiceImpl implements LoanService {
 	}
 
 	@Override
-	public List<LoanRequestDto> getLoanRequestsByUserId(Long userId) {
+	public List<LoanDto> getLoanRequestsByUserId(Long userId) {
 		List<LoanRequest> loans = loanDao.getLoanRequestsByUserId(userId);
 		return transform(loans);
+	}
+
+	@Override
+	public LoanRequest getLoanById(Long id) {
+		return loanDao.getLoanById(id);
 	}
 	
 	

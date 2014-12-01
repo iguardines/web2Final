@@ -129,8 +129,18 @@ a .back {position: relative; top: 25px; margin-left: 18%; font-size: 14px;}
 .ml-loan { margin-left: 35px;}
 .mt-loan { margin-top: 35px;}
 .mb-loan { margin-top: 35px;}
-.drag-me {position:absolute; top: 10px; left: 150px;}
+.loan-status {width:100px; height:100px; position:relative;}
+.tomato { background-color:tomato;}
+.springgreen { background-color:springgreen;}
+.lightgray { background-color:lightgray;}
+.drag-me {position:absolute; top: 10px; left: 252px;}
 .details {position: relative; left: 46%; top: -112px; max-width: 400px; text-align: justify;}
+
+.pos-status {position: relative; top: 20px;}
+.pos-li {position: relative; top: 60px; left: 33%;}
+.w {width: 100px;}
+.span-pos{position:absolute; top:-20px;}
+span .move img {width: 32px; height: 32px;} 
 
 .products ul { list-style: none; position: relative; width: 860px; margin-left: -7px; width: 860px; }
 .products ul li { float: left; display: inline; width: 150px; height: 343px; margin: 0 15px 14px 0; }
@@ -204,33 +214,6 @@ div .action { font-size: 11px; line-height: 16px; color: #878787; }
 .submit-btn { margin-top: 4px; display: inline-block; font-size: 10px; line-height: 16px; height: 24px; background: url(images/submit-btn.png); padding: 0 8px 0 10px; border: 0; color: #fff; text-transform: uppercase; cursor: pointer; }
 .submit-btn:hover { color: #015faa; }
 
-.display_box {
-		padding:4px;
-		margin-left: 34px;
-		border-top:solid 1px #dedede; 
-		font-size:12px;
-		min-height:20px;
-		max-width:180px;
-		border-width: 1px 1px 1px;
-		border-style: solid;
-		border-color: #333 #DEDEDE #DEDEDE;
-		background-color: #DEDEDE;
-		box-shadow: 0px 0px 5px #999;
-	}
- 
-	.display_box:hover{
-		background:#3bb998;
-		color:#FFFFFF;
-		cursor:pointer;
-	}
-
-#div-result{
-		position:absolute;
-		display:none;
-		margin-top:-18px;
-		border:solid 1px #dedede;
-		border-top:0px;
-		overflow:hidden;
-		
-		
-	}
+.display_box { padding:4px; margin-left: 34px; border-top:solid 1px #dedede; font-size:12px; min-height:20px; max-width:180px; border-width: 1px 1px 1px; border-style: solid; border-color: #333 #DEDEDE #DEDEDE; background-color: #DEDEDE; box-shadow: 0px 0px 5px #999; }
+.display_box:hover{ background:#3bb998; color:#FFFFFF; cursor:pointer;}
+#div-result{ position:absolute; display:none; margin-top:-18px; border:solid 1px #dedede; border-top:0px; overflow:hidden; }

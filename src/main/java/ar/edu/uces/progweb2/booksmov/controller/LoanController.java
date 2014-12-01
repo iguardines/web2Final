@@ -3,6 +3,7 @@ package ar.edu.uces.progweb2.booksmov.controller;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import ar.edu.uces.progweb2.booksmov.dto.LoanRequestDto;
+import ar.edu.uces.progweb2.booksmov.dto.LoanDto;
 import ar.edu.uces.progweb2.booksmov.dto.LoanStateDtoHolder;
 import ar.edu.uces.progweb2.booksmov.model.LoanRequest;
 import ar.edu.uces.progweb2.booksmov.model.LoanStateEnum;
@@ -54,9 +55,9 @@ public class LoanController {
 		
 		if(productId != null && ownerId != null){
 			Long userId = ((User) model.get("user")).getId();
-			List<LoanRequestDto> loans = loanService.getLoanRequestsByProductAndUserId(productId, userId);
+			List<LoanDto> loans = loanService.getLoanRequestsByProductAndUserId(productId, userId);
 			if(loanService.canRequestLoan(loans)){
-				LoanRequestDto loanDto = new LoanRequestDto();
+				LoanDto loanDto = new LoanDto();
 				loanDto.setConsigneeId(ownerId);
 				loanDto.setProductId(productId);
 				model.addAttribute("loanDto", loanDto);
@@ -70,11 +71,11 @@ public class LoanController {
 	
 	@SuppressWarnings("static-access")
 	@RequestMapping(value="/request", method=RequestMethod.POST)
-	public String requestLoan(@ModelAttribute("loanDto") LoanRequestDto dto, BindingResult result, ModelMap model){
+	public String requestLoan(@ModelAttribute("loanDto") LoanDto dto, BindingResult result, ModelMap model){
 		
 		loanValidator.validate(dto, result);
 		User requester = (User) model.get("user");	
-		List<LoanRequestDto> loans = loanService.getLoanRequestsByProductAndUserId(dto.getProductId(), requester.getId());
+		List<LoanDto> loans = loanService.getLoanRequestsByProductAndUserId(dto.getProductId(), requester.getId());
 		if(!loanService.canRequestLoan(loans)){
 			model.addAttribute("message", messageUtils.getMessage("loan.not.allowed"));
 			return "loanRequest";
@@ -106,50 +107,53 @@ public class LoanController {
 		model.addAttribute("loans", loans);
 		return "myLoanNotifications";
 	}
-	/*
-	@RequestMapping(value="/accept/{id}", method=RequestMethod.GET)
-	public String acceptLoan(@PathVariable("id") Long id, ModelMap model){
-		loanService.acceptLoan(id);
-		return "redirect:/app/loan/notifications";
-	}
-	
-	@RequestMapping(value="/reject/{id}", method=RequestMethod.GET)
-	public String rejectLoan(@PathVariable("id") Long id, ModelMap model){
-		loanService.rejectLoan(id);
-		return "redirect:/app/loan/notifications";
-	}
-	
-	@RequestMapping(value="/deliver/{id}", method=RequestMethod.GET)
-	public String deliverLoan(@PathVariable("id") Long id, ModelMap model){
-		loanService.deliverLoan(id);
-		return "redirect:/app/loan/notifications";
-	}
-	*/
-	
+
 	@RequestMapping(value="/accept/{id}", method=RequestMethod.GET)
 	@ResponseBody
-	public String acceptLoan(@PathVariable("id") Long id, ModelMap model) throws JsonGenerationException, JsonMappingException, IOException{
-		loanService.acceptLoan(id);
+	public String acceptLoan(@PathVariable("id") Long id, ModelMap model, Locale locale) throws JsonGenerationException, JsonMappingException, IOException{
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		LoanStateDtoHolder loanState = new LoanStateDtoHolder(LoanStateEnum.ACCEPTED, "springgreen");
+		String message = messageUtils.getMessage("loan.state.accepted");
+		LoanRequest loan = loanService.getLoanById(id);
+		LoanStateDtoHolder loanState = null;
+		if(loan != null){
+			if(loan.getState() == LoanStateEnum.PENDING){
+				loanService.acceptLoan(id);
+				loanState = new LoanStateDtoHolder(LoanStateEnum.ACCEPTED, "springgreen", message);
+			}
+		}
 		return ow.writeValueAsString(loanState);
 	}
 	
 	@RequestMapping(value="/reject/{id}", method=RequestMethod.GET)
 	@ResponseBody
 	public String rejectLoan(@PathVariable("id") Long id, ModelMap model) throws JsonGenerationException, JsonMappingException, IOException{
-		loanService.rejectLoan(id);
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		LoanStateDtoHolder loanState = new LoanStateDtoHolder(LoanStateEnum.REJECTED, "tomato");
+		String message = messageUtils.getMessage("loan.state.rejected");
+		LoanRequest loan = loanService.getLoanById(id);
+		LoanStateDtoHolder loanState = null;
+		if(loan != null){
+			if(loan.getState() == LoanStateEnum.PENDING){
+				loanService.rejectLoan(id);
+				loanState = new LoanStateDtoHolder(LoanStateEnum.REJECTED, "tomato", message);
+			}
+		}
 		return ow.writeValueAsString(loanState);
 	}
 	
 	@RequestMapping(value="/deliver/{id}", method=RequestMethod.GET)
 	@ResponseBody
 	public String deliverLoan(@PathVariable("id") Long id, ModelMap model) throws JsonGenerationException, JsonMappingException, IOException{
-		loanService.deliverLoan(id);
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		LoanStateDtoHolder loanState = new LoanStateDtoHolder(LoanStateEnum.DELIVERED, "lightgray");
+		String message = messageUtils.getMessage("loan.state.delivered");
+		LoanRequest loan = loanService.getLoanById(id);
+		LoanStateDtoHolder loanState = null;
+		if(loan != null){
+			if(loan.getState() == LoanStateEnum.ACCEPTED){
+				loanService.deliverLoan(id);
+				loanState = new LoanStateDtoHolder(LoanStateEnum.DELIVERED, "lightgray", message);
+			}
+		}
+		
 		return ow.writeValueAsString(loanState);
 	}
 }

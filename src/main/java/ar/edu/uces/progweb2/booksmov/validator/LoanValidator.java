@@ -5,14 +5,14 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import ar.edu.uces.progweb2.booksmov.dto.LoanRequestDto;
+import ar.edu.uces.progweb2.booksmov.dto.LoanDto;
 
 @Component
 public class LoanValidator implements Validator{
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return LoanRequestDto.class.isAssignableFrom(clazz);
+		return LoanDto.class.isAssignableFrom(clazz);
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class LoanValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productId", "errors.loan.product.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "consigneeId", "errors.loan.consignee.empty");
 		
-		LoanRequestDto loan = (LoanRequestDto) object;
+		LoanDto loan = (LoanDto) object;
 		
 		if(!errors.hasFieldErrors(loan.getRequestDescription())){
 			if(loan.getRequestDescription().length() > 500){

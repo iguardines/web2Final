@@ -91,4 +91,9 @@ public class LoanDaoImpl implements LoanDao{
 		return (List<LoanRequest>) criteria.list();
 	}
 
+	@Override
+	public LoanRequest getLoanById(Long id) {
+		return (LoanRequest) sessionFactory.getCurrentSession().get(LoanRequest.class, id);
+	}
+
 }
