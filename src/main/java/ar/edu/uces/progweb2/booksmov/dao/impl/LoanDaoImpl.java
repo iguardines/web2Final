@@ -54,32 +54,32 @@ public class LoanDaoImpl implements LoanDao{
 	}
 
 	@Override
-	public void acceptLoan(Long id) {
+	public void acceptLoan(Long id, Date responseDate) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("UPDATE LoanRequest lr set lr.state = :state, lr.responseDate = :date WHERE lr.id = :id");
 		query.setString("state", LoanStateEnum.ACCEPTED.toString());
 		query.setLong("id", id);
-		query.setDate("date", new Date());
+		query.setDate("date", responseDate);
 		query.executeUpdate();
 	}
 
 	@Override
-	public void rejectLoan(Long id) {
+	public void rejectLoan(Long id, Date responseDate) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("UPDATE LoanRequest lr set lr.state = :state, lr.responseDate = :date WHERE lr.id = :id");
 		query.setString("state", LoanStateEnum.REJECTED.toString());
 		query.setLong("id", id);
-		query.setDate("date", new Date());
+		query.setDate("date", responseDate);
 		query.executeUpdate();
 	}
 
 	@Override
-	public void deliverLoan(Long id) {
+	public void deliverLoan(Long id, Date deliveryDate) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("UPDATE LoanRequest lr set lr.state = :state, lr.deliveryDate = :date WHERE lr.id = :id");
 		query.setString("state", LoanStateEnum.DELIVERED.toString());
 		query.setLong("id", id);
-		query.setDate("date", new Date());
+		query.setDate("date", deliveryDate);
 		query.executeUpdate();
 	}
 

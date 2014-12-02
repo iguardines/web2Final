@@ -1,5 +1,6 @@
 package ar.edu.uces.progweb2.booksmov.service;
 
+import java.util.Date;
 import java.util.List;
 
 import ar.edu.uces.progweb2.booksmov.dto.LoanDto;
@@ -15,8 +16,8 @@ public interface LoanService {
 	LoanRequest getLoanById(Long id);
 	boolean canRequestLoan(List<LoanDto> loans);
 	void requestLoan(LoanRequest loan);
-	void acceptLoan(Long id);
-	void rejectLoan(Long id);
-	void deliverLoan(Long id);
+	void acceptLoan(Long id, Date responseDate);
+	void rejectLoan(Long id, Date responseDate);
+	void deliverLoan(Long id, Date deliveryDate);
 	void setRequestableForLoan(List<ProductDto> products, Long userId);
 }

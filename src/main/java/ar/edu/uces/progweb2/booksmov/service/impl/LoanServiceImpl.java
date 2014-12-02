@@ -1,6 +1,7 @@
 package ar.edu.uces.progweb2.booksmov.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,18 +70,18 @@ public class LoanServiceImpl implements LoanService {
 	}
 
 	@Override
-	public void acceptLoan(Long id) {
-		loanDao.acceptLoan(id);
+	public void acceptLoan(Long id, Date responseDate) {
+		loanDao.acceptLoan(id, responseDate);
 	}
 
 	@Override
-	public void rejectLoan(Long id) {
-		loanDao.rejectLoan(id);
+	public void rejectLoan(Long id, Date responseDate) {
+		loanDao.rejectLoan(id, responseDate);
 	}
 
 	@Override
-	public void deliverLoan(Long id) {
-		loanDao.deliverLoan(id);
+	public void deliverLoan(Long id, Date deliveryDate) {
+		loanDao.deliverLoan(id, deliveryDate);
 	}
 
 	@Override

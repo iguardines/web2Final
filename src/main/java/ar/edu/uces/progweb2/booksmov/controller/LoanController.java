@@ -1,6 +1,8 @@
 package ar.edu.uces.progweb2.booksmov.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -43,13 +45,10 @@ public class LoanController {
 	@Autowired
 	private LoanService loanService;
 	@Autowired
-	private MessageUtils messageUtils;
-	@Autowired
 	private LoanValidator loanValidator;
 	@Autowired
 	private UserService userService;
 	
-	@SuppressWarnings("static-access")
 	@RequestMapping(value="/request/{id}", method=RequestMethod.GET)
 	public String requestLoan(@PathVariable("id") Long productId, @RequestParam("owner") Long ownerId, ModelMap model){
 		
@@ -63,13 +62,12 @@ public class LoanController {
 				model.addAttribute("loanDto", loanDto);
 				return "loanRequest";
 			}
-			model.addAttribute("message", messageUtils.getMessage("loan.not.allowed"));
+			model.addAttribute("message", MessageUtils.getMessage("loan.not.allowed"));
 		}
 		
 		return "forward:/app/search";
 	}
 	
-	@SuppressWarnings("static-access")
 	@RequestMapping(value="/request", method=RequestMethod.POST)
 	public String requestLoan(@ModelAttribute("loanDto") LoanDto dto, BindingResult result, ModelMap model){
 		
@@ -77,7 +75,7 @@ public class LoanController {
 		User requester = (User) model.get("user");	
 		List<LoanDto> loans = loanService.getLoanRequestsByProductAndUserId(dto.getProductId(), requester.getId());
 		if(!loanService.canRequestLoan(loans)){
-			model.addAttribute("message", messageUtils.getMessage("loan.not.allowed"));
+			model.addAttribute("message", MessageUtils.getMessage("loan.not.allowed"));
 			return "loanRequest";
 		}
 		if(!result.hasErrors()){
@@ -87,7 +85,7 @@ public class LoanController {
 			Date requestDate = new Date();
 			LoanRequest loan = new LoanRequest(product, dto.getRequestDescription(), LoanStateEnum.PENDING, requester, consignee, requestDate, null);
 			loanService.requestLoan(loan);
-			model.addAttribute("message", messageUtils.getMessage("loan.submit.successfully"));
+			model.addAttribute("message", MessageUtils.getMessage("loan.submit.successfully"));
 		}
 		return "loanRequest";
 	}
@@ -112,13 +110,16 @@ public class LoanController {
 	@ResponseBody
 	public String acceptLoan(@PathVariable("id") Long id, ModelMap model, Locale locale) throws JsonGenerationException, JsonMappingException, IOException{
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		String message = messageUtils.getMessage("loan.state.accepted");
 		LoanRequest loan = loanService.getLoanById(id);
 		LoanStateDtoHolder loanState = null;
 		if(loan != null){
 			if(loan.getState() == LoanStateEnum.PENDING){
-				loanService.acceptLoan(id);
+				String message = MessageUtils.getMessage("loan.state.accepted");
+				Date responseDate = new Date();
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss");
+				loanService.acceptLoan(id, responseDate);
 				loanState = new LoanStateDtoHolder(LoanStateEnum.ACCEPTED, "springgreen", message);
+				loanState.setResponseDate(formatter.format(responseDate));
 			}
 		}
 		return ow.writeValueAsString(loanState);
@@ -128,13 +129,16 @@ public class LoanController {
 	@ResponseBody
 	public String rejectLoan(@PathVariable("id") Long id, ModelMap model) throws JsonGenerationException, JsonMappingException, IOException{
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		String message = messageUtils.getMessage("loan.state.rejected");
 		LoanRequest loan = loanService.getLoanById(id);
 		LoanStateDtoHolder loanState = null;
 		if(loan != null){
 			if(loan.getState() == LoanStateEnum.PENDING){
-				loanService.rejectLoan(id);
+				String message = MessageUtils.getMessage("loan.state.rejected");
+				Date responseDate = new Date();
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss");
+				loanService.rejectLoan(id, responseDate);
 				loanState = new LoanStateDtoHolder(LoanStateEnum.REJECTED, "tomato", message);
+				loanState.setResponseDate(formatter.format(responseDate));
 			}
 		}
 		return ow.writeValueAsString(loanState);
@@ -144,16 +148,18 @@ public class LoanController {
 	@ResponseBody
 	public String deliverLoan(@PathVariable("id") Long id, ModelMap model) throws JsonGenerationException, JsonMappingException, IOException{
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		String message = messageUtils.getMessage("loan.state.delivered");
 		LoanRequest loan = loanService.getLoanById(id);
 		LoanStateDtoHolder loanState = null;
 		if(loan != null){
 			if(loan.getState() == LoanStateEnum.ACCEPTED){
-				loanService.deliverLoan(id);
+				String message = MessageUtils.getMessage("loan.state.delivered");
+				Date deliveryDate = new Date();
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss");
+				loanService.deliverLoan(id, deliveryDate);
 				loanState = new LoanStateDtoHolder(LoanStateEnum.DELIVERED, "lightgray", message);
+				loanState.setDeliveryDate(formatter.format(deliveryDate));
 			}
 		}
-		
 		return ow.writeValueAsString(loanState);
 	}
 }

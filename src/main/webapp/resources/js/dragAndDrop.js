@@ -35,6 +35,12 @@ $(document).ready(function(){
 							var result = $.parseJSON(data);
 							$('#state-' + loanId).text(result.message);
 							$('#loan-' + loanId).css('background-color', result.color);
+							if(result.name == 'DELIVERED'){
+								$('#delivery-date-' + loanId).text(result.deliveryDate);
+							}
+							if(result.name == 'ACCEPTED' || result.name == 'REJECTED'){
+								$('#response-date-' + loanId).text(result.responseDate);
+							}
 							ui.draggable.data('state', result.name);
 						},
 						error : function(jqXHR, textStatus, errorThrown) {

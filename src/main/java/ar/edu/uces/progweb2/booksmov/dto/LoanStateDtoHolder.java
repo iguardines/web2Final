@@ -7,6 +7,8 @@ public class LoanStateDtoHolder {
 	private LoanStateEnum name;
 	private String color;
 	private String message;
+	private String responseDate;
+	private String deliveryDate;
 	
 	public LoanStateDtoHolder(LoanStateEnum name, String color, String message) {
 		this.name = name;
@@ -30,6 +32,18 @@ public class LoanStateDtoHolder {
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	public String getResponseDate() {
+		return responseDate;
+	}
+	public void setResponseDate(String responseDate) {
+		this.responseDate = responseDate;
+	}
+	public String getDeliveryDate() {
+		return deliveryDate;
+	}
+	public void setDeliveryDate(String deliveryDate) {
+		this.deliveryDate = deliveryDate;
 	}
 	
 }
