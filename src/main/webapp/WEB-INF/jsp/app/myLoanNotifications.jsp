@@ -11,6 +11,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<link rel="shortcut icon" href='<c:url value="/resources/css/images/favicon.ico" />' />
 	<link rel="stylesheet" href='<c:url value="/resources/css/style.css" />' type="text/css" media="all" />
+	<link rel="stylesheet" href='<c:url value="/resources/css/pure.css" />'>
 	<script src='<c:url value="/resources/js/lib/jquery-1.8.2.js" />'></script>
 	<script src='<c:url value="/resources/js/lib/jquery-ui-1.11.2.custom/jquery-ui.js" />'></script>
 	<title><spring:message code="loan.my.loans"/></title>
@@ -20,7 +21,7 @@
 	<div id="main" class="shell">
 		<h1 class="main-title"><spring:message code="loan.notified.list"/></h1><br />
 		<c:set var="backgroundColor" value="" />
-	
+		
 		<div class="pos-status">
 			<div id="dropzone-accepted" data-action="accept" class="float-lf ml-loan loan-status springgreen droppable">
 				<span class="span-pos"><spring:message code='loan.state.accepted' /></span>
@@ -33,7 +34,7 @@
 			</div>
 		</div>
 		<div class="loans">
-			<ul>
+			<ul class="pure-g">
 				<c:forEach var="loan" items="${loans}">
 					<c:choose>	
 						<c:when test="${loan.state eq 'ACCEPTED'}">
@@ -61,7 +62,7 @@
 							<c:set var="backgroundColor" value="rgb(255,255,125)" />
 						</c:otherwise>
 					</c:choose>
-					<li id="loan-${loan.id}" class="glowing-border clear-bt pos-li" style="background-color:${backgroundColor}">	
+					<li id="loan-${loan.id}" class="glowing-border clear-bt pos-li pure-u-1-3" style="background-color:${backgroundColor}">	
 						<div class="loan">
 							<div class="info">
 								<span class="holder">

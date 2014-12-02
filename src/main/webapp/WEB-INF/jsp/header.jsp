@@ -28,7 +28,7 @@
 	<c:if test="${not empty user}">
 		<div id="login-details">
 			<p><spring:message code="welcome"/><spring:message code="comma"/>&nbsp;<span id="user">${user.name}</span>.&nbsp;</p>
-			<a href='<c:url value="/app/logout/" />'>Logout</a>
+			<a href='<c:url value="/app/logout/" />'><spring:message code="logout"/></a>
 		</div>
 	</c:if>
 	<!-- End Login-details -->
