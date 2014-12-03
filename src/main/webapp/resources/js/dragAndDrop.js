@@ -49,7 +49,7 @@ $(document).ready(function(){
 							errorHtml += "Reason: <pre>" + errorThrown + "</pre> <br/>";
 							alert(errorHtml);
 						}
-					});
+				});
 			  }
 		   }
 		});

@@ -93,7 +93,7 @@ a .back {position: relative; top: 25px; margin-left: 18%; font-size: 14px;}
 #login-details #user:hover { color: #000; text-decoration: underline; }
 #login-details .sum { color: #0182b5; }
 #login-details .sum:hover { text-decoration: none; color: #000; }
-#login-details p { float: left; display: inline; }
+#login-details p {display: inline; }
 #login-details .cart { float: left; display: inline; margin: 0 6px 0 12px; }
 #login-details .cart img { display: block; }
 
