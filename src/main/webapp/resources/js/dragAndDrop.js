@@ -15,10 +15,9 @@ $(document).ready(function(){
 	}
 	
 	$('.drag-me').draggable({
-	   cursor: 'move'
+	   cursor: 'move',
+	   revert : true
 	});
-	
-	$(".drag-me").draggable("option", "revert", true);
 	
 	$(".droppable").droppable({
 		   tolerance: "fit",
