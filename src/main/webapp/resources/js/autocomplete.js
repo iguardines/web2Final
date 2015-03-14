@@ -24,7 +24,7 @@ $(document).ready(function(){
 						var result = $.parseJSON(data);
 						$('#user-results').children().empty().remove();
 						for(var i = 0; i < result.length; i++){
-							$('#user-results').append('<div class="display_box"><span>' + result[i] + '</span></div>');
+							$('#user-results').append('<div class="display_box display-users-ml"><span>' + result[i] + '</span></div>');
 						}
 						$('#user-results').show();
 						
@@ -46,9 +46,28 @@ $(document).ready(function(){
 			  }
 		});
 		
-		$('#title').on('keyup', function(){
-			++count;
-			if(count >= 2){
+		function evaluateKey(key){
+			var inputSize = $('#title').val().length;
+			
+			if(inputSize == 0){
+				count = 0;
+			}
+			// si es una letra, numero o espacio, suma contador
+			if( (key >= 48 && key <= 90) || key == 32){
+				++count;
+			}
+			else if( (key == 8 || key == 46) && count > 0 ){
+				--count;
+			}
+		}
+		
+		$('#title').on('keyup', function(event){
+			
+			evaluateKey(event.keyCode, count);
+			
+			if(count < 2){
+				$('#product-results').hide('slow');
+			}else{
 				
 				var type = $('.type:checked').val(),
 				userName = $('#userName').val(),
@@ -61,10 +80,15 @@ $(document).ready(function(){
 					success : function(data, status, xhr){
 						var result = $.parseJSON(data);
 						$('#product-results').children().empty().remove();
-						for(var i = 0; i < result.length; i++){
-							$('#product-results').append('<div class="display_box"><span>' + result[i] + '</span></div>');
+						
+						if(result.length == 0){
+							$('#product-results').hide('slow');
+						}else{
+							for(var i = 0; i < result.length; i++){
+								$('#product-results').append('<div class="display_box display-items-ml"><span>' + result[i] + '</span></div>');
+							}
+							$('#product-results').show();
 						}
-						$('#product-results').show();
 					},
 					error : function(jqXHR, textStatus, errorThrown) {
 						var errorHtml = "An error ocurred <br/>";
@@ -73,8 +97,6 @@ $(document).ready(function(){
 						alert(errorHtml);
 					}
 				});
-				
-				count = 0;
 			}
 		});
 	});
