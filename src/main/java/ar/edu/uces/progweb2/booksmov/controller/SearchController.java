@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -25,6 +27,7 @@ import ar.edu.uces.progweb2.booksmov.dto.FilterDto;
 import ar.edu.uces.progweb2.booksmov.dto.ProductDto;
 import ar.edu.uces.progweb2.booksmov.dto.SearchResultDto;
 import ar.edu.uces.progweb2.booksmov.model.User;
+import ar.edu.uces.progweb2.booksmov.service.AuthenticationService;
 import ar.edu.uces.progweb2.booksmov.service.LoanService;
 import ar.edu.uces.progweb2.booksmov.service.ProductService;
 import ar.edu.uces.progweb2.booksmov.service.UserService;
@@ -40,9 +43,11 @@ public class SearchController {
 	private ProductService productService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AuthenticationService authService;
 
 	@RequestMapping(method=RequestMethod.GET)
-	public String findProducts(ModelMap model, 
+	public String findProducts(ModelMap model, HttpServletRequest request,
 			@RequestParam(value="page", required=false, defaultValue="0") String page,
 			@RequestParam(value="rating", required=false, defaultValue="false") String rating,
 			@RequestParam(value="order", required=false, defaultValue="asc") String order,
@@ -52,12 +57,14 @@ public class SearchController {
 			@RequestParam(value="type", required=false, defaultValue="all") String type,
 			@RequestParam(value="borrowable", required=false) Boolean borrowable){
 		
-		User user = (User) model.get("user");
-		Long id = user.getId();
+		//User user = (User) model.get("user");
+		User user = authService.getLoggedUser();
+		request.getSession().setAttribute("user", user);
 		Integer pageId = Integer.parseInt(page);
 		FilterDto filterDto = new FilterDto(userName, stars, title, type, borrowable);
 		CriteriaSearchDto searchCriteria = new CriteriaSearchDto(pageId, order, Boolean.valueOf(rating));
-		SearchResultDto<ProductDto> searchResult = productService.getProductsByUserId(id, filterDto, searchCriteria);
+		SearchResultDto<ProductDto> searchResult = productService.getProductsByUserId(user.getId(), filterDto, searchCriteria);
+		
 		model.addAttribute("products", searchResult.getProducts());
 		model.addAttribute("pagination", searchResult.getPaginationDetails());
 		model.addAttribute("search", searchCriteria);

@@ -60,7 +60,16 @@
 	    <property name="maxUploadSize" value="250000000000"/>
 	</bean>
 	
+	<bean id="loginServiceImpl" class="ar.edu.uces.progweb2.booksmov.service.impl.LoginServiceImpl">
+ 		<property name="loginDao" ref="loginDaoImpl" />
+ 	</bean>
+ 	
+ 	<bean id="loginDaoImpl" class="ar.edu.uces.progweb2.booksmov.dao.impl.LoginDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
 	<import resource="/json-mapper-context.xml" />
 	<import resource="/hibernate-context.xml" />
+	
 
 </beans>

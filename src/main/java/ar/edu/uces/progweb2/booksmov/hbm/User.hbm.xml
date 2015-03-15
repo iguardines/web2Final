@@ -21,5 +21,13 @@
     	</set>
 		
 		<many-to-one name="preferences" column="PREFERENCE_ID" lazy="false" cascade="none" class="ar.edu.uces.progweb2.booksmov.model.Preference"/>
+		
+		<property name="role" not-null="true" column="ROLE">
+	      <type name="org.hibernate.type.EnumType">
+	         <param name="enumClass">ar.edu.uces.progweb2.booksmov.model.RoleEnum</param>
+	         <param name="type">12</param>
+	      </type>
+	   </property>
+		
 	</class>
 </hibernate-mapping>

@@ -30,17 +30,19 @@
 		<div class="col login" id="newsletter">
 			<h4><spring:message code="login" /></h4>
 			<p><spring:message code="enter.credentials" /> </p>
-			<form:form  method="POST" modelAttribute="userDto" action="/booksmov/login">
-				<form:label path="name">
+			<c:url value="/j_spring_security_check" var="loginUrl" />
+			<form:form  method="POST" modelAttribute="userDto" action="${loginUrl}">
+				<c:if test="${param.error != null}">
+					<label class="error"><spring:message code="errors.login.bad.credentials"/></label>
+				</c:if>
+				<form:label path="j_username">
 					<spring:message code="label.name" />
 				</form:label>
-				<form:input path="name" cssClass="field"/>
-				<form:errors path="name" cssStyle="color: red" />
-				<form:label path="password">
+				<form:input path="j_username" cssClass="field"/>
+				<form:label path="j_password">
 					<spring:message code="label.password"/>
 				</form:label>
-				<form:password path="password" cssClass="field"/> 
-			 	<form:errors path="password" cssStyle="color: red" />
+				<form:password path="j_password" cssClass="field"/> 
 				<form:button id="login-btn" class="submit-btn"><spring:message code="label.submit"/></form:button>
 			</form:form>
 		</div>

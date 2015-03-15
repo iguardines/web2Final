@@ -11,11 +11,14 @@ Class-Path: antlr-2.7.7.jar aopalliance-1.0.jar asm-3.1.jar asm-all-3.
  jar javassist-3.15.0-GA.jar jboss-logging-3.1.0.GA.jar jboss-transact
  ion-api_1.1_spec-1.0.0.Final.jar jstl-1.2.jar junit-4.10.jar log4j-1.
  2.16.jar mysql-connector-java-5.0.8.jar slf4j-api-1.6.1.jar slf4j-log
- 4j12-1.6.4.jar spring-aop-3.1.2.RELEASE.jar spring-asm-3.1.2.RELEASE.
+ 4j12-1.6.4.jar spring-aop-3.0.7.RELEASE.jar spring-asm-3.1.2.RELEASE.
  jar spring-beans-3.1.2.RELEASE.jar spring-context-3.1.2.RELEASE.jar s
  pring-context-support-3.1.2.RELEASE.jar spring-core-3.1.2.RELEASE.jar
   spring-expression-3.1.2.RELEASE.jar spring-jdbc-3.1.2.RELEASE.jar sp
- ring-orm-3.1.2.RELEASE.jar spring-oxm-3.1.2.RELEASE.jar spring-tx-3.1
- .2.RELEASE.jar spring-web-3.1.2.RELEASE.jar spring-webmvc-3.1.2.RELEA
- SE.jar standard-1.1.2.jar validation-api-1.0.0.GA.jar
+ ring-orm-3.1.2.RELEASE.jar spring-oxm-3.1.2.RELEASE.jar spring-securi
+ ty-acl-3.1.2.RELEASE.jar spring-security-config-3.1.2.RELEASE.jar spr
+ ing-security-core-3.1.2.RELEASE.jar spring-security-taglibs-3.1.2.REL
+ EASE.jar spring-security-web-3.1.2.RELEASE.jar spring-tx-3.1.2.RELEAS
+ E.jar spring-web-3.1.2.RELEASE.jar spring-webmvc-3.1.2.RELEASE.jar st
+ andard-1.1.2.jar validation-api-1.0.0.GA.jar
 

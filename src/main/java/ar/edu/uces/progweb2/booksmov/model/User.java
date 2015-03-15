@@ -9,6 +9,7 @@ public class User {
 	
 	private Long id;
 	private String name;
+	private RoleEnum role;
 	@JsonIgnore
 	private String password;
 	@JsonIgnore
@@ -54,6 +55,12 @@ public class User {
 	}
 	public void setPendingLoans(Set<LoanRequest> pendingLoans) {
 		this.pendingLoans = pendingLoans;
+	}
+	public RoleEnum getRole() {
+		return role;
+	}
+	public void setRole(RoleEnum role) {
+		this.role = role;
 	}
 	
 }

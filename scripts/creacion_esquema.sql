@@ -27,6 +27,7 @@ CREATE  TABLE `Users` (
   `name` VARCHAR(200) NOT NULL,
   `password` VARCHAR(20) NOT NULL,
   `preference_id` INT NULL,
+  `role` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_user`)  );
   
 ALTER TABLE `Users` ADD CONSTRAINT fk_preferences FOREIGN KEY (`preference_id`) REFERENCES `Preferences`(`id`);
@@ -114,11 +115,11 @@ INSERT INTO `Preferences` (language, country) VALUES ('es', 'ES');
 INSERT INTO `Preferences` (language, country) VALUES ('en', 'US');
 INSERT INTO `Preferences` (language, country) VALUES ('en', 'UK');
 
-INSERT INTO `Users` (name, password, preference_id) VALUES ('Andres', '123456', 1);
-INSERT INTO `Users` (name, password, preference_id) VALUES ('Diego', '123456', 2);
-INSERT INTO `Users` (name, password, preference_id) VALUES ('John', '123456', 3);
-INSERT INTO `Users` (name, password, preference_id) VALUES ('Paul', '123456', 4);
-INSERT INTO `Users` (name, password, preference_id) VALUES ('David', '123456', 1);
+INSERT INTO `Users` (name, password, preference_id, role) VALUES ('Andres', '123456', 1, 'ROLE_ADMIN');
+INSERT INTO `Users` (name, password, preference_id, role) VALUES ('Diego', '123456', 2, 'ROLE_USER');
+INSERT INTO `Users` (name, password, preference_id, role) VALUES ('John', '123456', 3, 'ROLE_USER');
+INSERT INTO `Users` (name, password, preference_id, role) VALUES ('Paul', '123456', 4, 'ROLE_USER');
+INSERT INTO `Users` (name, password, preference_id, role) VALUES ('David', '123456', 1, 'ROLE_USER');
 
 INSERT INTO `Products` (title, rating, already_used, borrowable, user_id) VALUES ('Berenice', 4, '1', '1', 1);
 INSERT INTO `books` (id, description) VALUES (1, 'Berenice is a short horror story by Edgar Allan Poe, first published in the Southern Literary Messenger in 1835. The story follows a man named Egaeus who is preparing to marry his cousin Berenice. He has a tendency to fall into periods of intense focus during which he seems to separate himself from the outside world. Berenice begins to deteriorate from an unnamed disease until the only part of her remaining healthy is her teeth, which Egaeus begins to obsess over. Berenice is buried, and Egaeus continues to contemplate her teeth. One day Egaeus wakes up from a period of focus with an uneasy feeling, and the sound of screams in his ears. A servant startles him by telling him Berenices grave has been disturbed, and she is still alive; but beside Egaeus is a box containing 32 blood-stained teeth and a poem about "visiting the grave of my beloved."');

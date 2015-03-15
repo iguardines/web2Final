@@ -4,7 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!-- Header -->
 <div id="header" class="shell">
@@ -17,20 +18,22 @@
 			<li><a href='<c:url value="/app/movies/new" />'><spring:message code="menu.add.movie"/></a></li>
 			<li><a href='<c:url value="/app/loan/" />'><spring:message code="menu.my.loans"/></a></li>
 			<li><a href='<c:url value="/app/loan/notifications" />'><spring:message code="menu.my.revisions"/></a></li>
-			<c:if test="${empty user}">
+			<sec:authorize access="!isAuthenticated()">
 				<li><a href='<c:url value="/app/login" />'><spring:message code="login"/></a></li>
-			</c:if>
+			</sec:authorize>
 		</ul>
 	</div>
 	<!-- End Navigation -->
 	<div class="cl">&nbsp;</div>
 	<!-- Login-details -->
-	<c:if test="${not empty user}">
+	<sec:authorize access="isAuthenticated()">
 		<div id="login-details">
-			<p><spring:message code="welcome"/><spring:message code="comma"/>&nbsp;<span id="user">${user.name}</span>.&nbsp;</p>
-			<a href='<c:url value="/app/logout/" />'><spring:message code="logout"/></a>
+			<p><spring:message code="welcome"/><spring:message code="comma"/>&nbsp;
+				<span id="user"><sec:authentication property="principal.username" /></span>.&nbsp;
+			</p>
+			<a href='<c:url value="/j_spring_security_logout" />'><spring:message code="logout"/></a>
 		</div>
-	</c:if>
+	</sec:authorize>
 	<!-- End Login-details -->
 </div>
 <!-- End Header -->

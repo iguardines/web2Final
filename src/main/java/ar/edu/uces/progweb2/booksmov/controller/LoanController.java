@@ -29,6 +29,7 @@ import ar.edu.uces.progweb2.booksmov.model.LoanRequest;
 import ar.edu.uces.progweb2.booksmov.model.LoanStateEnum;
 import ar.edu.uces.progweb2.booksmov.model.Product;
 import ar.edu.uces.progweb2.booksmov.model.User;
+import ar.edu.uces.progweb2.booksmov.service.AuthenticationService;
 import ar.edu.uces.progweb2.booksmov.service.LoanService;
 import ar.edu.uces.progweb2.booksmov.service.ProductService;
 import ar.edu.uces.progweb2.booksmov.service.UserService;
@@ -48,13 +49,15 @@ public class LoanController {
 	private LoanValidator loanValidator;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AuthenticationService authService;
 	
 	@RequestMapping(value="/request/{id}", method=RequestMethod.GET)
 	public String requestLoan(@PathVariable("id") Long productId, @RequestParam("owner") Long ownerId, ModelMap model){
 		
 		if(productId != null && ownerId != null){
-			Long userId = ((User) model.get("user")).getId();
-			List<LoanDto> loans = loanService.getLoanRequestsByProductAndUserId(productId, userId);
+			User user = authService.getLoggedUser();
+			List<LoanDto> loans = loanService.getLoanRequestsByProductAndUserId(productId, user.getId());
 			if(loanService.canRequestLoan(loans)){
 				LoanDto loanDto = new LoanDto();
 				loanDto.setConsigneeId(ownerId);
@@ -72,7 +75,7 @@ public class LoanController {
 	public String requestLoan(@ModelAttribute("loanDto") LoanDto dto, BindingResult result, ModelMap model){
 		
 		loanValidator.validate(dto, result);
-		User requester = (User) model.get("user");	
+		User requester = authService.getLoggedUser();	
 		List<LoanDto> loans = loanService.getLoanRequestsByProductAndUserId(dto.getProductId(), requester.getId());
 		if(!loanService.canRequestLoan(loans)){
 			model.addAttribute("message", MessageUtils.getMessage("loan.not.allowed"));
@@ -92,16 +95,16 @@ public class LoanController {
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String displayMyRequestedLoans(ModelMap model) throws IOException{
-		Long userId = ((User) model.get("user")).getId();
-		List<LoanRequest> loans = loanService.getMyRequestedLoans(userId);
+		User user = authService.getLoggedUser();
+		List<LoanRequest> loans = loanService.getMyRequestedLoans(user.getId());
 		model.addAttribute("loans", loans);
 		return "myLoans";
 	}
 
 	@RequestMapping(value="/notifications", method=RequestMethod.GET)
 	public String displayMyNotifiedLoans(ModelMap model) throws IOException{
-		Long userId = ((User) model.get("user")).getId();
-		List<LoanRequest> loans = loanService.getMyNotifiedLoans(userId);
+		User user = authService.getLoggedUser();
+		List<LoanRequest> loans = loanService.getMyNotifiedLoans(user.getId());
 		model.addAttribute("loans", loans);
 		return "myLoanNotifications";
 	}

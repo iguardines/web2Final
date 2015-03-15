@@ -35,4 +35,19 @@ public class UserDaoImpl implements UserDao{
 		return (List<String>) criteria.list();
 	}
 
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	@Override
+	public User getUserByName(String name) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
+		criteria.add(Restrictions.eq("name", name));
+		return (User) criteria.uniqueResult();
+	}
+	
 }

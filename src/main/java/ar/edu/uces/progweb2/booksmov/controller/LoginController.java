@@ -30,7 +30,7 @@ public class LoginController {
 	@Autowired
 	private UserValidator userValidator;
 	
-	@Autowired
+	//@Autowired
 	private LoginService loginService;
 	
 	@RequestMapping(method=RequestMethod.GET)
@@ -52,7 +52,7 @@ public class LoginController {
 		slr.setLocale(request, response, locale);
        
 		if(!result.hasErrors()){
-			User user = loginService.getUserByCredentials(userDto.getName(), userDto.getPassword());
+			User user = loginService.getUserByCredentials(userDto.getJ_username(), userDto.getJ_password());
 			if(user != null){
 				resolveLocale(request, response, user);
 				request.getSession().setAttribute("user", user);

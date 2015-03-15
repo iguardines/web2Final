@@ -135,7 +135,7 @@ a .back {position: relative; top: 25px; margin-left: 18%; font-size: 14px;}
 .lightgray { background-color:lightgray;}
 .drag-me {position:absolute; top: 10px; left: 252px;}
 .details {position: relative; left: 46%; top: -112px; max-width: 400px; text-align: justify;}
-
+.error {color: red};
 .pos-status {position: relative; top: 20px;}
 .pos-li {position: relative; top: 60px; left: 33%;}
 .w {width: 100px;}
